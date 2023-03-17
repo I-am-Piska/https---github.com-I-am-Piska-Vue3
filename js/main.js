@@ -75,6 +75,8 @@ Vue.component('board', {
     }
 })
 
+
+
 Vue.component('table_1',{
     props: {
         column_1: {
@@ -171,6 +173,8 @@ Vue.component('table_1',{
     }
 })
 
+
+
 Vue.component('table_2',{
     props: {
         column_2: {
@@ -266,6 +270,8 @@ Vue.component('table_2',{
         }
     }
 })
+
+
 
 Vue.component('table_3',{
     props: {
@@ -396,6 +402,8 @@ Vue.component('table_3',{
     }
 })
 
+
+
 Vue.component('table_4',{
     props: {
         column_4: {
@@ -449,6 +457,8 @@ Vue.component('table_4',{
         </div>
     `,
 })
+
+
 
 Vue.component('newBoard', {
     template:`
