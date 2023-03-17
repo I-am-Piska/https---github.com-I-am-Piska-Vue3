@@ -266,3 +266,132 @@ Vue.component('table_2',{
         }
     }
 })
+
+Vue.component('table_3',{
+    props: {
+        column_3: {
+            type: Array
+        },
+        tab: {
+            type: Object
+        },
+    },
+    template:`
+        <div class="tab">
+            <h2>Тестирование</h2>
+            <ul class="tab-li">
+                <li v-for="tab in column_3" v-if="tab.priori == 1">
+                    <div class="separator"></div>
+                    <a @click="tab.editButton = true">Редактировать</a><br>
+                    <p class="tab-title">{{tab.title}}</p>
+                    <ul class="tab-task">
+                        <li>Описание: {{tab.description}}</li>
+                        <li>Дата создания: {{tab.date}}</li>
+                        <li>Дедлайн: {{tab.deadline}}</li>
+                        <li v-if="tab.reason != null" v-for="res in tab.reason">Проблема: {{res}}</li>
+                        <li v-if="tab.edit != null">Последние изменение: {{tab.edit}}</li>
+                        <li v-if="tab.editButton === true">
+                            <form @submit.prevent="updateTab(tab)">
+                                <label for="title">Новый заголовок</label>
+                                <input id="title" type="text" v-model="tab.title" maxlength="30" placeholder="Заголовок">
+                                <label for="description">Новое описание:</label> 
+                                <textarea id="description" v-model="tab.description" cols="20" rows="5"></textarea>
+                                <input type="submit" value="Редактировать">
+                            </form>                      
+                        </li>
+                        <li v-if="tab.refund">
+                            <form @submit.prevent="refundTab(tab)">
+                                <label for="reason">Причина: &emsp;</label> 
+                                <textarea id="reason" v-model="reason"></textarea>
+                                <input type="submit" value="Отправить">
+                            </form>
+                        </li>
+                    </ul>
+                    <a @click="tab.refund = true">Вернуть</a> &emsp; <a @click="nextTab(tab)">Следующая колонка</a>
+                </li>
+                <li v-for="tab in column_3" v-if="tab.priori == 2">
+                    <div class="separator"></div>
+                    <a @click="tab.editButton = true">Редактировать</a><br>
+                    <p class="tab-title">{{tab.title}}</p>
+                    <ul class="tab-task">
+                        <li>Описание: {{tab.description}}</li>
+                        <li>Дата создания: {{tab.date}}</li>
+                        <li>Дедлайн: {{tab.deadline}}</li>
+                        <li v-if="tab.reason != null" v-for="res in tab.reason">Проблема: {{res}}</li>
+                        <li v-if="tab.edit != null">Последние изменение: {{tab.edit}}</li>
+                        <li v-if="tab.editButton === true">
+                            <form @submit.prevent="updateTab(tab)">
+                                <label for="title">Новый заголовок</label>
+                                <input id="title" type="text" v-model="tab.title" maxlength="30" placeholder="Заголовок">
+                                <label for="description">Новое описание:</label> 
+                                <textarea id="description" v-model="tab.description" cols="20" rows="5"></textarea>
+                                <input type="submit" value="Редактировать">
+                            </form>                      
+                        </li>
+                        <li v-if="tab.refund">
+                            <form @submit.prevent="refundTab(tab)">
+                                <label for="reason">Причина: &emsp;</label> 
+                                <textarea id="reason" v-model="reason"></textarea>
+                                <input type="submit" value="Отправить">
+                            </form>
+                        </li>
+                    </ul>
+                    <a @click="tab.refund = true">Вернуть</a> &emsp; <a @click="nextTab(tab)">Следующая колонка</a>
+                </li>
+                <li v-for="tab in column_3" v-if="tab.priori == 3">
+                    <div class="separator"></div>
+                    <a @click="tab.editButton = true">Редактировать</a><br>
+                    <p class="tab-title">{{tab.title}}</p>
+                    <ul class="tab-task">
+                        <li>Описание: {{tab.description}}</li>
+                        <li>Дата создания: {{tab.date}}</li>
+                        <li>Дедлайн: {{tab.deadline}}</li>
+                        <li v-if="tab.reason != null" v-for="res in tab.reason">Проблема: {{res}}</li>
+                        <li v-if="tab.edit != null">Последние изменение: {{tab.edit}}</li>
+                        <li v-if="tab.editButton === true">
+                            <form @submit.prevent="updateTab(tab)">
+                                <label for="title">Новый заголовок</label>
+                                <input id="title" type="text" v-model="tab.title" maxlength="30" placeholder="Заголовок">
+                                <label for="description">Новое описание:</label> 
+                                <textarea id="description" v-model="tab.description" cols="20" rows="5"></textarea>
+                                <input type="submit" value="Редактировать">
+                            </form>                      
+                        </li>
+                        <li v-if="tab.refund">
+                            <form @submit.prevent="refundTab(tab)">
+                                <label for="reason">Причина: &emsp;</label> 
+                                <textarea id="reason" v-model="reason"></textarea>
+                                <input type="submit" value="Отправить">
+                            </form>
+                        </li>
+                    </ul>
+                    <a @click="tab.refund = true">Вернуть</a> &emsp; <a @click="nextTab(tab)">Следующая колонка</a>
+                </li>
+            </ul>
+        </div>
+    `,
+    data(){
+        return{
+            reason:[],
+        }
+    },
+    methods: {
+        nextTab(tab){
+            this.column_3.splice(this.column_3.indexOf(tab), 1);
+            eventBus.$emit('addColumn_4', tab);
+        },
+        refundTab(tab){
+            tab.reason.push(this.reason)
+            tab.refund = false
+            this.column_3.splice(this.column_3.indexOf(tab), 1);
+            eventBus.$emit('addColumn_2', tab);
+            this.reason = '';
+        },
+        updateTab(tab){
+            tab.editButton = false;
+            this.column_3.push(tab);
+            this.column_3.splice(this.column_3.indexOf(tab), 1);
+            tab.edit = new Date().toLocaleString();
+        },
+    }
+})
