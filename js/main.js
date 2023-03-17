@@ -395,3 +395,142 @@ Vue.component('table_3',{
         },
     }
 })
+
+Vue.component('table_4',{
+    props: {
+        column_4: {
+            type: Array,
+        },
+        tab: {
+            type: Object
+        },
+    },
+    template:`
+        <div class="tab">
+            <h2>Выполненные задачи</h2>
+            <ul class="tab-li">
+                <li v-for="tab in column_4" v-if="tab.priori == 1">
+                    <div class="separator"></div>
+                    <p class="tab-title">{{tab.title}}</p>
+                    <ul class="tab-task">
+                        <li>Описание: {{tab.description}}</li>
+                        <li>Дата создания: {{tab.date}}</li>
+                        <li>Дедлайн: {{tab.deadline}}</li>
+                        <li v-if="tab.edit != null">Последние изменение: {{tab.edit}}</li>
+                        <li v-if="tab.term">Завершено в срок</li>
+                        <li v-else>В срок не завершено</li>
+                    </ul>
+                </li>
+                <li v-for="tab in column_4" v-if="tab.priori == 2">
+                    <div class="separator"></div>
+                    <p class="tab-title">{{tab.title}}</p>
+                    <ul class="tab-task">
+                        <li>Описание: {{tab.description}}</li>
+                        <li>Дата создания: {{tab.date}}</li>
+                        <li>Дедлайн: {{tab.deadline}}</li>
+                        <li v-if="tab.edit != null">Последние изменение: {{tab.edit}}</li>
+                        <li v-if="tab.term">Завершено в срок</li>
+                        <li v-else>В срок не завершено</li>
+                    </ul>
+                </li>
+                <li v-for="tab in column_4" v-if="tab.priori == 3">
+                    <div class="separator"></div>
+                    <p class="tab-title">{{tab.title}}</p>
+                    <ul class="tab-task">
+                        <li>Описание: {{tab.description}}</li>
+                        <li>Дата создания: {{tab.date}}</li>
+                        <li>Дедлайн: {{tab.deadline}}</li>
+                        <li v-if="tab.edit != null">Последние изменение: {{tab.edit}}</li>
+                        <li v-if="tab.term">Завершено в срок</li>
+                        <li v-else>В срок не завершено</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    `,
+})
+
+Vue.component('newBoard', {
+    template:`
+        <section  class="section-modal">
+            <button type="button" class="button" @click="show=true">Создать задачу</button>
+            <div class="modal" v-if="show">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <slot name="header">
+                                <button class="close" type="button" @click="close">×</button>
+                            </slot>
+                        </div>
+                        <div class="modal-body">
+                            <slot name="body">
+                                <div class="create_form">
+                                    <form class="create" @submit.prevent="onSubmit">
+                                        <label for="title">Заголовок</label>
+                                        <input id="title" v-model="title" type="text" placeholder="Заголовок" required maxlength="30">   
+                                        <label for="description">Описание</label>
+                                        <textarea id="description" v-model="description" rows="5" columns="10" required maxlength="60"></textarea>
+                                        <label for="deadline">Дедлайн</label>
+                                        <input id="deadline" type="date" v-model="deadline" placeholder="дд.мм.гггг" required>        
+                                        <label for="priority">Приоретет:</label>
+                                        <select id="priority" v-model.number="priori">
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                        </select>
+                                        <button type="submit">Создать</button>
+                                    </form>
+                                </div>
+                            </slot>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    `,
+    data(){
+        return{
+            title: null,
+            description: null,
+            date:null,
+            deadline: null,
+            show: false,
+            reason: [],
+            priori:null,
+        }
+    },
+    methods:{
+        onSubmit(){
+            let tab = {
+                title: this.title,
+                description: this.description,
+                date: new Date().toLocaleDateString().split('.').reverse().join('-'),
+                deadline: this.deadline,
+                edit: null,
+                editButton: false,
+                refund: false,
+                term: true,
+                reason: [],
+                priori: this.priori
+            }
+            eventBus.$emit('addColumn_1', tab);
+            this.title = null;
+            this.description = null;
+            this.date = null;
+            this.deadline = null;
+            this.show = false;
+            this.priori = null;
+        },
+        close(){
+            this.show = false;
+        }
+    }
+})
+
+
+let app = new Vue({
+    el: '#app',
+    data:{
+        name: 'Kanban доска'
+    }
+})
