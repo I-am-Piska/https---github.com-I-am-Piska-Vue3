@@ -170,3 +170,99 @@ Vue.component('table_1',{
         }
     }
 })
+
+Vue.component('table_2',{
+    props: {
+        column_2: {
+            type: Array,
+        },
+        tab: {
+            type: Object
+        },
+    },
+    template:`
+        <div class="tab">
+            <h2>Задачи в работе</h2>
+            <ul class="tab-li">
+                <li v-for="tab in column_2" v-if="tab.priori == 1">
+                    <div class="separator"></div>
+                    <a @click="tab.editButton = true">Редактировать</a><br>
+                    <p class="tab-title">{{tab.title}}</p>
+                    <ul class="tab-task">
+                        <li>Описание: {{tab.description}}</li>
+                        <li>Дата создания: {{tab.date}}</li>
+                        <li>Дедлайн: {{tab.deadline}}</li>
+                        <li v-if="tab.reason != null" v-for="res in tab.reason">Проблема: {{res}}</li>
+                        <li v-if="tab.edit != null">Последние изменение: {{tab.edit}}</li>
+                        <li v-if="tab.editButton === true">
+                            <form @submit.prevent="updateTab(tab)">
+                                <label for="title">Новый заголовок</label>
+                                <input id="title" type="text" v-model="tab.title" maxlength="30" placeholder="Заголовок">
+                                <label for="description">Новое описание:</label> 
+                                <textarea id="description" v-model="tab.description" cols="20" rows="5"></textarea>
+                                <input type="submit" value="Редактировать">
+                            </form>                      
+                        </li>
+                    </ul>
+                    <a @click="nextTab(tab)">Следующая колонка</a>
+                </li>
+                <li v-for="tab in column_2" v-if="tab.priori == 2">
+                    <div class="separator"></div>
+                    <a @click="tab.editButton = true">Редактировать</a><br>
+                    <p class="tab-title">{{tab.title}}</p>
+                    <ul class="tab-task">
+                        <li>Описание: {{tab.description}}</li>
+                        <li>Дата создания: {{tab.date}}</li>
+                        <li>Дедлайн: {{tab.deadline}}</li>
+                        <li v-if="tab.reason != null" v-for="res in tab.reason">Проблема: {{res}}</li>
+                        <li v-if="tab.edit != null">Последние изменение: {{tab.edit}}</li>
+                        <li v-if="tab.editButton === true">
+                            <form @submit.prevent="updateTab(tab)">
+                                <label for="title">Новый заголовок</label>
+                                <input id="title" type="text" v-model="tab.title" maxlength="30" placeholder="Заголовок">
+                                <label for="description">Новое описание:</label> 
+                                <textarea id="description" v-model="tab.description" cols="20" rows="5"></textarea>
+                                <input type="submit" value="Редактировать">
+                            </form>                      
+                        </li>
+                    </ul>
+                    <a @click="nextTab(tab)">Следующая колонка</a>
+                </li>
+                <li v-for="tab in column_2" v-if="tab.priori == 3">
+                    <div class="separator"></div>
+                    <a @click="tab.editButton = true">Редактировать</a><br>
+                    <p class="tab-title">{{tab.title}}</p>
+                    <ul class="tab-task">
+                        <li>Описание: {{tab.description}}</li>
+                        <li>Дата создания: {{tab.date}}</li>
+                        <li>Дедлайн: {{tab.deadline}}</li>
+                        <li v-if="tab.reason != null" v-for="res in tab.reason">Проблема: {{res}}</li>
+                        <li v-if="tab.edit != null">Последние изменение: {{tab.edit}}</li>
+                        <li v-if="tab.editButton === true">
+                            <form @submit.prevent="updateTab(tab)">
+                                <label for="title">Новый заголовок</label>
+                                <input id="title" type="text" v-model="tab.title" maxlength="30" placeholder="Заголовок">
+                                <label for="description">Новое описание:</label> 
+                                <textarea id="description" v-model="tab.description" cols="20" rows="5"></textarea>
+                                <input type="submit" value="Редактировать">
+                            </form>                      
+                        </li>
+                    </ul>
+                    <a @click="nextTab(tab)">Следующая колонка</a>
+                </li>
+            </ul>
+        </div>
+    `,
+    methods:{
+        nextTab(tab){
+            this.column_2.splice(this.column_2.indexOf(tab), 1);
+            eventBus.$emit('addColumn_3', tab);
+        },
+        updateTab(tab){
+            tab.editButton = false;
+            this.column_2.push(tab);
+            this.column_2.splice(this.column_2.indexOf(tab), 1);
+            tab.edit = new Date().toLocaleString();
+        }
+    }
+})
